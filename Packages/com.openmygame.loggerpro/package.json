@@ -1,0 +1,17 @@
+{
+  "name": "com.openmygame.loggerpro",
+  "version": "1.0.0",
+  "displayName": "Logger Pro",
+  "keywords": [
+    "log",
+    "logger",
+    "openmygame"
+  ],
+  "samples": [
+  ],
+  "author": {
+    "name": "Openmygame"
+  },
+  "unity": "2021.1",
+  "dependencies": {}
+}

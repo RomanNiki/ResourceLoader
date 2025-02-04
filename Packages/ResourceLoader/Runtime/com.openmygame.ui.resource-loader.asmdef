@@ -1,0 +1,7 @@
+{
+  "name": "com.openmygame.ui.resource-loader",
+  "references": [
+    "UniTask",
+    "com.openmygame.loggerpro"
+  ]
+}

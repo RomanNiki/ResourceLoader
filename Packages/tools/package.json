@@ -1,0 +1,7 @@
+﻿{
+    "name": "tools",
+    "version": "1.0.0",
+    "displayName": "Tools",
+    "unity": "2021.1",
+    "dependencies": {}
+}

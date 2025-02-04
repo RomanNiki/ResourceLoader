@@ -1,0 +1,7 @@
+{
+    "name": "tools.editor",
+    "rootNamespace": "Tools",
+    "references": [
+        "GUID:0a5ee992a0aac4679ae9febc65dacc90"
+    ]
+}

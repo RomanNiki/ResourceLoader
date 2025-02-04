@@ -1,0 +1,4 @@
+{
+  "name": "com.openmygame.loggerpro.Editor",
+  "includePlatforms": ["Editor"]
+}

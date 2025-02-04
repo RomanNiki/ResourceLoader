@@ -1,0 +1,7 @@
+{
+    "name": "com.openmygame.loggerpro",
+    "rootNamespace": "Openmygame.LoggerPro",
+    "references": [
+        "GUID:0a5ee992a0aac4679ae9febc65dacc90"
+    ]
+}

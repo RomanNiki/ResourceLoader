@@ -1,0 +1,16 @@
+{
+  "name": "com.openmygame.ui.resource-loader",
+  "version": "1.0.0",
+  "displayName": "Resource Loader",
+  "keywords": [
+    "openmygame"
+  ],
+  "samples": [
+  ],
+  "author": {
+    "name": "Openmygame"
+  },
+  "unity": "2021.1",
+  "dependencies": {
+  }
+}
