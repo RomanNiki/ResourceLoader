@@ -1,0 +1,15 @@
+
+/.idea/*
+/[Ll]ibrary/*
+/[Ll]ogs/*
+/[Oo]bj/*
+/[Tt]emp/*
+/[Bb]ins
+/[Ss]creenshots
+*.csproj
+*.sln
+*.sln.DotSettings.user
+*.apk
+*.zip
+*.keystore
+/UserSettings/*
