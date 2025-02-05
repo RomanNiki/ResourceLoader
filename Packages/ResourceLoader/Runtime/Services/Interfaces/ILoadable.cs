@@ -1,4 +1,4 @@
-namespace Containers
+namespace Services.Interfaces
 {
     public interface ILoadable
     {

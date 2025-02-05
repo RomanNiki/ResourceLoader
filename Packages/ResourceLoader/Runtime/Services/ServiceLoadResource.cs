@@ -27,7 +27,7 @@ namespace Services
         {
             foreach (var handlerLoadResource in _handlers)
             {
-                if (!handlerLoadResource.KeyType.IsAssignableFrom(typeof(T)))
+                if (!handlerLoadResource.CanLoad(key, typeof(T)))
                 {
                     continue;
                 }

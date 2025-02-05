@@ -6,7 +6,7 @@ namespace Handlers
 {
     public interface IHandlerLoadResource
     {
-        Type KeyType { get; }
+        bool CanLoad(string key, Type type);
         UniTask<T> LoadResource<T>(string key, CancellationToken cancellationToken = default);
     }
 }
