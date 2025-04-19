@@ -1,0 +1,107 @@
+* {
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Fonts/Roboto/Roboto-Light%20SDF.asset?fileID=11400000&guid=4a813aec472149149bd5470cbf533316&type=2#Roboto-Light SDF');
+    --accent-color: rgb(255, 153, 1);
+    --accent-color--hover: rgb(242, 142, 2);
+    --button-color: rgb(58, 58, 58);
+    --button-color--hover: rgb(54, 54, 54);
+    --font-color: rgb(255, 255, 255);
+}
+
+.top-panel {
+    margin-left: 56px;
+    margin-right: 56px;
+    margin-top: 56px;
+    margin-bottom: 56px;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.bottom-panel {
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    border-top-color: var(--button-color);
+    border-top-width: 2px;
+    margin-left: 56px;
+    margin-right: 56px;
+    margin-top: 56px;
+    margin-bottom: 56px;
+    padding-top: 64px;
+}
+
+.round-button {
+    width: 212px;
+    height: 212px;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 80px;
+    color: var(--font-color);
+    background-color: var(--button-color);
+    transition-duration: 85ms;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.round-button:hover:enabled {
+    font-size: 64px;
+    background-color: var(--button-color--hover);
+}
+
+.round-button--wide {
+    width: 464px;
+    border-top-left-radius: 96px;
+    border-bottom-left-radius: 96px;
+    border-top-right-radius: 96px;
+    border-bottom-right-radius: 96px;
+    -unity-text-align: middle-left;
+    padding-left: 88px;
+}
+
+.round-button--highlighted {
+    color: rgb(0, 0, 0);
+    background-color: var(--accent-color);
+}
+
+.round-button--highlighted:hover:enabled {
+    background-color: var(--accent-color--hover);
+}
+
+.round-button__clear-label {
+    color: var(--accent-color);
+}
+
+.round-button__operation-label {
+    color: var(--accent-color);
+}
+
+.expression-label {
+    font-size: 112px;
+    -unity-text-align: middle-right;
+    color: var(--accent-color);
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.result-label {
+    font-size: 72px;
+    -unity-text-align: upper-right;
+    color: var(--font-color);
+    overflow: hidden;
+}
+
+.elements-row {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}

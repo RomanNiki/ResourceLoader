@@ -1,0 +1,4 @@
+{
+  "name": "Unity.Mvvm.Calc",
+  "references":[ "unity-mvvm-toolkit.core", "UnityMvvmToolkit.Core", "UnityMvvmToolkit.UITK", "UnityMvvmToolkit.Common" ]
+}
