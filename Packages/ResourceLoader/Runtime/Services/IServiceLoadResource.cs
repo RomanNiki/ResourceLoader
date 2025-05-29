@@ -1,7 +1,7 @@
 using System.Threading;
 using Containers;
 
-namespace Services.Interfaces
+namespace Services
 {
     public interface IServiceLoadResource
     {

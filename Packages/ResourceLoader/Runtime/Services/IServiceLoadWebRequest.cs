@@ -3,7 +3,7 @@ using Containers;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 
-namespace Services.Interfaces
+namespace Services
 {
     public interface IServiceLoadWebRequest
     {

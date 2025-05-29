@@ -1,4 +1,4 @@
-namespace Services.Interfaces
+namespace Services
 {
     internal interface ILoadable
     {
