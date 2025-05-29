@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
-namespace Services
+namespace Services.Load
 {
     public class ServiceLoadTexture2D : IServiceLoadTexture2D, IInitializable
     {

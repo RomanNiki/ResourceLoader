@@ -4,7 +4,7 @@ using Strategies;
 using UnityEngine;
 using Zenject;
 
-namespace Services
+namespace Services.Cache
 {
     public class ServiceCleanupResources : IServiceCleanupResources, IInitializable
     {

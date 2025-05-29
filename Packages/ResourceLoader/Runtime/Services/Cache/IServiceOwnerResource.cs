@@ -1,4 +1,4 @@
-namespace Services
+namespace Services.Cache
 {
     public interface IServiceOwnerResource
     {

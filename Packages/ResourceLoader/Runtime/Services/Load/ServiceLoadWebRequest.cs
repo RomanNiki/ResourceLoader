@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using Openmygame.LoggerPro.Extensions;
 using UnityEngine.Networking;
 
-namespace Services
+namespace Services.Load
 {
     public class ServiceLoadWebRequest : IServiceLoadWebRequest
     {

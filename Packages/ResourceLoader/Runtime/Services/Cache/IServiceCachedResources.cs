@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Services
+namespace Services.Cache
 {
     public interface IServiceCachedResources
     {

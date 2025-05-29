@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Services
+namespace Services.Load
 {
     public interface IServiceLoadTexture2D
     {

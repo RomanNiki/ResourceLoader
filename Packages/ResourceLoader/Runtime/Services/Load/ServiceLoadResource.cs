@@ -4,8 +4,9 @@ using Containers;
 using Cysharp.Threading.Tasks;
 using Handlers;
 using Openmygame.LoggerPro;
+using Services.Cache;
 
-namespace Services
+namespace Services.Load
 {
     public class ServiceLoadResource : IServiceLoadResource
     {
