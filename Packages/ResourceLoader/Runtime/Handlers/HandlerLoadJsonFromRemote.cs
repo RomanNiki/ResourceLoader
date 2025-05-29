@@ -5,9 +5,7 @@ using Containers;
 using Cysharp.Threading.Tasks;
 using Services.Interfaces;
 using Unity.Collections;
-using UnityEngine;
 using UnityEngine.Networking;
-using Object = UnityEngine.Object;
 
 namespace Handlers
 {
@@ -23,11 +21,10 @@ namespace Handlers
             _serviceJsonSerializer = serviceJsonSerializer;
         }
 
-        public bool CanLoad(string key, Type type)
+        public bool CanHandle(string key)
         {
-            return Uri.TryCreate(key, UriKind.Absolute, out var result)
-                   && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps) &&
-                   !type.IsAssignableFrom(typeof(Object));
+            return Uri.TryCreate(key, UriKind.Absolute, out var result) &&
+                   (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
         }
 
         public async UniTask<T> LoadResource<T>(string key, CancellationToken cancellationToken = default)

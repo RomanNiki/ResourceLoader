@@ -16,8 +16,6 @@ namespace Containers
             KeyResource = keyResource;
             _owner = owner;
             _serviceOwnerResource = serviceOwnerResource;
-
-            _serviceOwnerResource.AddOwner(keyResource, owner);
             _tcs = new UniTaskCompletionSource<T>();
         }
 

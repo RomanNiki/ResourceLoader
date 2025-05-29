@@ -27,14 +27,15 @@ namespace Services
         {
             foreach (var handlerLoadResource in _handlers)
             {
-                if (!handlerLoadResource.CanLoad(key, typeof(T)))
+                if (!handlerLoadResource.CanHandle(key))
                 {
                     continue;
                 }
 
-                var loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
+                UniTask<T> loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
 
-                var containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
+                _serviceOwnerResource.AddOwner(key, owner);
+                ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
                 LoadInternal(containerLoadItem, loadTask, cancellationToken).Forget();
 
                 return containerLoadItem;

@@ -1,6 +1,6 @@
 namespace Services.Interfaces
 {
-    public interface ILoadable
+    internal interface ILoadable
     {
         void CompleteLoading(object loaded);
         void SetCanceled();
