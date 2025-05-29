@@ -12,7 +12,7 @@ namespace Services.Load
 {
     public class ServiceLoadTexture2D : IServiceLoadTexture2D, IInitializable
     {
-        private readonly Queue<ContainerItem> _queue = new();
+        private readonly Queue<ContainerItemTexture2D> _queue = new();
 
         public void Initialize()
         {
@@ -22,9 +22,9 @@ namespace Services.Load
         public UniTask<Texture2D> LoadSprite(string key, DownloadHandlerTexture downloadHandlerTexture,
             CancellationToken cancellationToken = default)
         {
-            ContainerItem containerItem = new ContainerItem(key, downloadHandlerTexture, cancellationToken);
-            _queue.Enqueue(containerItem);
-            return containerItem.Task;
+            ContainerItemTexture2D containerItemTexture2D = new ContainerItemTexture2D(key, downloadHandlerTexture, cancellationToken);
+            _queue.Enqueue(containerItemTexture2D);
+            return containerItemTexture2D.Task;
         }
 
         private async UniTaskVoid Load()
@@ -36,30 +36,30 @@ namespace Services.Load
                     await UniTask.Yield();
                 }
 
-                ContainerItem containerItem = _queue.Dequeue();
+                ContainerItemTexture2D containerItemTexture2D = _queue.Dequeue();
 
-                LoadItem(containerItem);
+                LoadItem(containerItemTexture2D);
 
                 await UniTask.Yield();
             }
         }
 
-        private void LoadItem(ContainerItem containerItem)
+        private void LoadItem(ContainerItemTexture2D containerItemTexture2D)
         {
-            CancellationToken cancellationToken = containerItem.CancellationToken;
+            CancellationToken cancellationToken = containerItemTexture2D.CancellationToken;
 
             if (cancellationToken.IsCancellationRequested)
             {
-                containerItem.SetCanceled();
+                containerItemTexture2D.SetCanceled();
                 return;
             }
 
-            string keyTexture = containerItem.KeyTexture;
-            DownloadHandlerTexture downloadHandler = containerItem.DownloadHandler;
+            string keyTexture = containerItemTexture2D.KeyTexture;
+            DownloadHandlerTexture downloadHandler = containerItemTexture2D.DownloadHandler;
 
             Texture2D texture2D = CreateTexture2D(downloadHandler, keyTexture);
 
-            containerItem.CompleteLoading(texture2D);
+            containerItemTexture2D.CompleteLoading(texture2D);
         }
 
         private Texture2D CreateTexture2D(DownloadHandlerTexture downloadHandler, string keyTexture)

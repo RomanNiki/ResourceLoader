@@ -27,9 +27,11 @@ namespace Services.Load
 
         public ContainerLoadItem<T> Load<T>(string key, object owner, CancellationToken cancellationToken = default)
         {
-            if (TryGetCachedItem(key, owner, out ContainerLoadItem<T> cachedContainerItem))
+            if (TryGetCachedItem(key, out T item))
             {
-                return cachedContainerItem;
+                var containerLoadItem = CreateContainerLoad<T>(key, owner);
+                containerLoadItem.CompleteLoading(item);
+                return containerLoadItem;
             }
 
             foreach (var handlerLoadResource in _handlers)
@@ -41,8 +43,7 @@ namespace Services.Load
 
                 UniTask<T> loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
 
-                _serviceOwnerResource.AddOwner(key, owner);
-                ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
+                var containerLoadItem = CreateContainerLoad<T>(key, owner);
                 LoadInternal(containerLoadItem, loadTask, cancellationToken).Forget();
 
                 return containerLoadItem;
@@ -52,17 +53,20 @@ namespace Services.Load
             return default;
         }
 
-        private bool TryGetCachedItem<T>(string key, object owner, out ContainerLoadItem<T> load)
+        private ContainerLoadItem<T> CreateContainerLoad<T>(string key, object owner)
+        {
+            _serviceOwnerResource.AddOwner(key, owner);
+            ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
+            return containerLoadItem;
+        }
+
+        private bool TryGetCachedItem<T>(string key, out T load)
         {
             load = default;
 
             if (_serviceCachedResources.Has(key))
             {
-                T item = _serviceCachedResources.Get<T>(key);
-                _serviceOwnerResource.AddOwner(key, owner);
-                ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
-                containerLoadItem.CompleteLoading(item);
-                load = containerLoadItem;
+                load = _serviceCachedResources.Get<T>(key);
                 return true;
             }
 

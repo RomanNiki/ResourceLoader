@@ -1,5 +1,5 @@
 using App.Scripts.Features.LoadData.Services;
-using Services;
+using Tools.Json.Services;
 using Zenject;
 
 namespace App.Scripts.Features.LoadData.Bootstrap

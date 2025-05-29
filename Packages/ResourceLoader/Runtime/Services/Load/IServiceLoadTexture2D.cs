@@ -7,6 +7,7 @@ namespace Services.Load
 {
     public interface IServiceLoadTexture2D
     {
-        public UniTask<Texture2D> LoadSprite(string key, DownloadHandlerTexture downloadHandlerTexture, CancellationToken cancellationToken = default);
+        public UniTask<Texture2D> LoadSprite(string key, DownloadHandlerTexture downloadHandlerTexture,
+            CancellationToken cancellationToken = default);
     }
 }

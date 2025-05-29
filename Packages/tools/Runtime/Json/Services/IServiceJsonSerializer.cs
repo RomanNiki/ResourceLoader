@@ -1,4 +1,4 @@
-namespace Services
+namespace Tools.Json.Services
 {
     public interface IServiceJsonSerializer
     {
