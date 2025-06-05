@@ -4,6 +4,7 @@ using App.Scripts.Features.SystemResources.Core.Constants;
 using Configs;
 using Cysharp.Threading.Tasks;
 using Handlers;
+using Models;
 using Openmygame.LoggerPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -37,15 +38,7 @@ namespace App.Scripts.Features.SystemResources.Core.Handlers
             return false;
         }
 
-        private IContainerResources TryGetConfig()
-        {
-            IContainerResources config =
-                _config.Resources.FirstOrDefault(x => x.Name == KeyCategoriesSystemResources.Addressables);
-
-            return config;
-        }
-
-        public async UniTask<T> LoadResource<T>(string key, CancellationToken cancellationToken = default)
+        public async UniTask<ModelResource> LoadResource<T>(string key, CancellationToken cancellationToken = default)
         {
             var config = TryGetConfig();
 
@@ -59,11 +52,26 @@ namespace App.Scripts.Features.SystemResources.Core.Handlers
             {
                 if (keyItem == key)
                 {
-                    return await ProcessLoad<T>(item as AssetReference, cancellationToken);
+                    var resource = await ProcessLoad<T>(item as AssetReference, cancellationToken);
+                   
+                    return new ModelResource(key, resource, () => ReleaseAddressableAsset(resource));
                 }
             }
 
             return default;
+        }
+        
+        private static void ReleaseAddressableAsset<T>(T obj)
+        {
+            Addressables.Release(obj);
+        }
+
+        private IContainerResources TryGetConfig()
+        {
+            IContainerResources config =
+                _config.Resources.FirstOrDefault(x => x.Name == KeyCategoriesSystemResources.Addressables);
+
+            return config;
         }
 
         private async UniTask<T> ProcessLoad<T>(AssetReference item, CancellationToken token = default)
@@ -75,7 +83,9 @@ namespace App.Scripts.Features.SystemResources.Core.Handlers
             await task.SuppressCancellationThrow();
 
             if (token.IsCancellationRequested)
+            {
                 return default;
+            }
 
             return handle.Result;
         }

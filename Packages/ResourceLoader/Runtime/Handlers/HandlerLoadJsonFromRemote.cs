@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading;
 using Containers;
 using Cysharp.Threading.Tasks;
+using Models;
 using Services.Load;
 using Tools.Json.Services;
 using Unity.Collections;
@@ -28,7 +29,7 @@ namespace Handlers
                    (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
         }
 
-        public async UniTask<T> LoadResource<T>(string key, CancellationToken cancellationToken = default)
+        public async UniTask<ModelResource> LoadResource<T>(string key, CancellationToken cancellationToken = default)
         {
             DownloadHandlerBuffer downloadHandlerBuffer = new DownloadHandlerBuffer();
             ResultLoadWebRequest resultLoadWebRequest =
@@ -52,9 +53,11 @@ namespace Handlers
 
             downloadHandlerBuffer.Dispose();
 
-            return _serviceJsonSerializer.Deserialize<T>(result);
+            var resource = _serviceJsonSerializer.Deserialize<T>(result);
+           
+            return new ModelResource(key, resource);
         }
-        
+
         private static string GetFileAsString(NativeArray<byte>.ReadOnly fileBytes)
         {
             return Encoding.UTF8.GetString(fileBytes);

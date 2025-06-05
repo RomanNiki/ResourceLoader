@@ -3,6 +3,7 @@ using System.Threading;
 using Containers;
 using Cysharp.Threading.Tasks;
 using Handlers;
+using Models;
 using Openmygame.LoggerPro;
 using Services.Cache;
 
@@ -41,7 +42,7 @@ namespace Services.Load
                     continue;
                 }
 
-                UniTask<T> loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
+                UniTask<ModelResource> loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
 
                 var containerLoadItem = CreateContainerLoad<T>(key, owner);
                 LoadInternal(containerLoadItem, loadTask, cancellationToken).Forget();
@@ -73,7 +74,7 @@ namespace Services.Load
             return false;
         }
 
-        private async UniTaskVoid LoadInternal<T>(ContainerLoadItem<T> containerLoadItem, UniTask<T> loadTask,
+        private async UniTaskVoid LoadInternal<T>(ContainerLoadItem<T> containerLoadItem, UniTask<ModelResource> loadTask,
             CancellationToken cancellationToken)
         {
             var result = await loadTask;
@@ -85,7 +86,7 @@ namespace Services.Load
             }
 
             _serviceCachedResources.Add(containerLoadItem.KeyResource, result);
-            containerLoadItem.CompleteLoading(result);
+            containerLoadItem.CompleteLoading(result.Resource);
         }
     }
 }
