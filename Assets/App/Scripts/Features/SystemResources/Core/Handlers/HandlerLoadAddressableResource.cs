@@ -8,16 +8,24 @@ using Models;
 using Openmygame.LoggerPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Zenject;
 
 namespace App.Scripts.Features.SystemResources.Core.Handlers
 {
-    public class HandlerLoadAddressableResource : IHandlerLoadResource
+    public class HandlerLoadAddressableResource : IHandlerLoadResource, IInitializable
     {
         private readonly ConfigContainerResource _config;
+        private IContainerResources _configResource;
 
         public HandlerLoadAddressableResource(ConfigContainerResource config)
         {
             _config = config;
+        }
+        
+        public void Initialize()
+        {
+            _configResource =
+                _config.Resources.FirstOrDefault(x => x.Name == KeyCategoriesSystemResources.Addressables);
         }
 
         public bool CanHandle(string key)
@@ -68,10 +76,7 @@ namespace App.Scripts.Features.SystemResources.Core.Handlers
 
         private IContainerResources TryGetConfig()
         {
-            IContainerResources config =
-                _config.Resources.FirstOrDefault(x => x.Name == KeyCategoriesSystemResources.Addressables);
-
-            return config;
+            return _configResource;
         }
 
         private async UniTask<T> ProcessLoad<T>(AssetReference item, CancellationToken token = default)
