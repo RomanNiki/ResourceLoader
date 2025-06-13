@@ -1,4 +1,9 @@
 {
   "name": "features.bootstrap",
-  "references":[ "GUID:0d8beb7f090555447a6cf5ce9e54dbb4", "GUID:7873e97981384d149f204aec92036da2", "GUID:1e3c9607d238483fa24c9844a24bda99", "GUID:3bc93e1bddef437a9e0ab9364348fcd2" ]
+  "references": [
+    "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+    "GUID:7873e97981384d149f204aec92036da2",
+    "GUID:1e3c9607d238483fa24c9844a24bda99",
+    "GUID:3bc93e1bddef437a9e0ab9364348fcd2"
+  ]
 }
