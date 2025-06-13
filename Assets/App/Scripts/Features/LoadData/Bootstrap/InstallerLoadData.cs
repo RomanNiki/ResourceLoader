@@ -4,7 +4,7 @@ using Zenject;
 
 namespace App.Scripts.Features.LoadData.Bootstrap
 {
-    public class InstallerLoadData : MonoInstaller
+    public class InstallerLoadData : Installer<InstallerLoadData>
     {
         public override void InstallBindings()
         {

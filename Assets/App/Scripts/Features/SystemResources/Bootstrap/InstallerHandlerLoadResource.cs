@@ -4,7 +4,7 @@ using Zenject;
 
 namespace App.Scripts.Features.SystemResources.Bootstrap
 {
-    public class InstallerBindHandlerLoadResource : Installer<InstallerBindHandlerLoadResource>
+    public class InstallerHandlerLoadResource : Installer<InstallerHandlerLoadResource>
     {
         public override void InstallBindings()
         {
