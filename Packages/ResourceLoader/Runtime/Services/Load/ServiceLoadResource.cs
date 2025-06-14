@@ -14,8 +14,9 @@ namespace Services.Load
         private readonly IServiceOwnerResource _serviceOwnerResource;
         private readonly List<IHandlerLoadResource> _handlers;
         private readonly IServiceCachedResources _serviceCachedResources;
+        private readonly Dictionary<string, IUniTaskSource> _activeTasks = new();
 
-        public ServiceLoadResource(List<IHandlerLoadResource> handlers, IServiceCachedResources serviceCachedResources)
+        public ServiceLoadResource(IServiceCachedResources serviceCachedResources, List<IHandlerLoadResource> handlers)
         {
             _handlers = handlers;
             _serviceCachedResources = serviceCachedResources;
@@ -30,8 +31,17 @@ namespace Services.Load
         {
             if (TryGetCachedItem(key, out T item))
             {
-                var containerLoadItem = CreateContainerLoad<T>(key, owner);
+                var tsk = new UniTaskCompletionSource<T>();
+
+                var containerLoadItem = CreateContainerLoad(key, tsk, owner);
                 containerLoadItem.CompleteLoading(item);
+
+                return containerLoadItem;
+            }
+
+            if (_activeTasks.TryGetValue(key, out var completionSource))
+            {
+                var containerLoadItem = CreateContainerLoad(key, (UniTaskCompletionSource<T>)completionSource, owner);
                 return containerLoadItem;
             }
 
@@ -44,7 +54,11 @@ namespace Services.Load
 
                 UniTask<ModelResource> loadTask = handlerLoadResource.LoadResource<T>(key, cancellationToken);
 
-                var containerLoadItem = CreateContainerLoad<T>(key, owner);
+                var tsk = new UniTaskCompletionSource<T>();
+                var containerLoadItem = CreateContainerLoad<T>(key, tsk, owner);
+               
+                _activeTasks.Add(key, tsk);
+              
                 LoadInternal(containerLoadItem, loadTask, cancellationToken).Forget();
 
                 return containerLoadItem;
@@ -54,10 +68,10 @@ namespace Services.Load
             return default;
         }
 
-        private ContainerLoadItem<T> CreateContainerLoad<T>(string key, object owner)
+        private ContainerLoadItem<T> CreateContainerLoad<T>(string key, UniTaskCompletionSource<T> tsk, object owner)
         {
             _serviceOwnerResource.AddOwner(key, owner);
-            ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, _serviceOwnerResource);
+            ContainerLoadItem<T> containerLoadItem = new ContainerLoadItem<T>(key, owner, tsk, _serviceOwnerResource);
             return containerLoadItem;
         }
 
@@ -74,7 +88,8 @@ namespace Services.Load
             return false;
         }
 
-        private async UniTaskVoid LoadInternal<T>(ContainerLoadItem<T> containerLoadItem, UniTask<ModelResource> loadTask,
+        private async UniTaskVoid LoadInternal<T>(ContainerLoadItem<T> containerLoadItem,
+            UniTask<ModelResource> loadTask,
             CancellationToken cancellationToken)
         {
             var result = await loadTask;
@@ -84,8 +99,9 @@ namespace Services.Load
                 containerLoadItem.SetCanceled();
                 return;
             }
-
+            
             _serviceCachedResources.Add(containerLoadItem.KeyResource, result);
+            _activeTasks.Remove(containerLoadItem.KeyResource);
             containerLoadItem.CompleteLoading(result.Resource);
         }
     }

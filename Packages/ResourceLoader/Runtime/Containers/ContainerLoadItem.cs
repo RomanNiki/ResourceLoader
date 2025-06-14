@@ -7,17 +7,17 @@ namespace Containers
 {
     public struct ContainerLoadItem<T> : ILoadable, IDisposable
     {
-        private readonly UniTaskCompletionSource<T> _tcs;
         public readonly string KeyResource;
         private readonly object _owner;
+        private readonly UniTaskCompletionSource<T> _tcs;
         private readonly IServiceOwnerResource _serviceOwnerResource;
 
-        internal ContainerLoadItem(string keyResource, object owner, IServiceOwnerResource serviceOwnerResource)
+        internal ContainerLoadItem(string keyResource, object owner, UniTaskCompletionSource<T> completionSource, IServiceOwnerResource serviceOwnerResource)
         {
             KeyResource = keyResource;
             _owner = owner;
+            _tcs = completionSource;
             _serviceOwnerResource = serviceOwnerResource;
-            _tcs = new UniTaskCompletionSource<T>();
         }
 
         public UniTaskStatus Status => Task.Status;
